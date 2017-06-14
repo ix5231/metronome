@@ -4,7 +4,7 @@
 
 謝辞
 ----
-[PANICPUMPKIN](http://pansound.com/panicpumpkin/index/html)
+[PANICPUMPKIN](http://pansound.com/panicpumpkin/index.html)
 
 ライセンス
 ----------
