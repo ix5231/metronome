@@ -1,6 +1,10 @@
-# テンプレート
+# メトロノーム
 
-ここに簡単な説明とか書く
+拍子が設定できるメトロノームです。
+
+謝辞
+----
+[PANICPUMPKIN](http://pansound.com/panicpumpkin/index/html)
 
 ライセンス
 ----------

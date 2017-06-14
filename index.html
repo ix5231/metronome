@@ -3,21 +3,24 @@
 
 <head>
 
-<title>Template</title>
+<title>metronome</title>
 
 <style>
 <!--
 body {
     text-align: center;
 }
+
 h1 {
     font-size: 20px;
     margin: 0px;
     margin-top: 50px;
 }
+
 article {
     margin: 30px;
 }
+
 footer {
     font-size: 10px;
 }
@@ -26,9 +29,58 @@ footer {
 
 <script type="text/javascript">
 <!--
-window.onload = function() {
-    document.getElementById("content").textContent = "SomeContent"
+'use strict'
+
+const accent = new Audio("assets/accent.wav");
+const tick = new Audio("assets/tick.wav");
+
+let bpm = 120;
+let beatsPerBar = 4;
+let unit = 4;
+
+let beatTmp = 0;
+let intervalId;
+
+function playTick() {
+    if(beatTmp % beatsPerBar == 0) {
+        accent.pause();
+        accent.currentTime = 0;
+        accent.play();
+        beatTmp = 0;
+    } else {
+        tick.pause();
+        tick.currentTime = 0;
+        tick.play();
+    }
+    beatTmp++;
 }
+
+function beatToSec(b) {
+    return 60 / b * (4 / unit);
+}
+
+function play() {
+    intervalId = setInterval(playTick, beatToSec(bpm) * 1000);
+}
+
+function stop() {
+    clearInterval(intervalId);
+}
+
+function change() {
+    if(intervalId != undefined) {
+        stop();
+    }
+    const _bpm = Number(document.metronome.bpm.value);
+    bpm = (_bpm == 0 ? 120 : _bpm);
+    const _beatsPerBar = Number(document.metronome.beatsPerBar.value);
+    beatsPerBar = (_beatsPerBar == 0 ? 4 : _beatsPerBar);
+    unit = Number(document.metronome.unit.value);
+
+    beatTmp = 0;
+    play();
+}
+
 -->
 </script>
 
@@ -36,15 +88,29 @@ window.onload = function() {
 
 <body>
 <header>
-    <h1>タイトル</h1>
-    説明
+    <h1>メトロノーム</h1>
+    拍子が設定できるメトロノームです。音注意。
 </header>
 <article>
-    <div id='content'></div>
+    <form name="metronome">
+        BPM<input type="number" name="bpm" min="1" max="200"></input>
+        <br></br>
+        <input type="number" name="beatsPerBar" min="2" max="99"></input>/
+        <select name="unit">
+            <option value="2">2</option>
+            <option value="4" selected>4</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+        </select>拍子
+        <br></br>
+        <input type="button" value="Play" onclick="change();"></input>
+        <input type="button" value="Stop" onclick="stop();"></input>
+    </form>
 </article>
 
 <footer>
-    <a href="https://github.com/ix5231/template">GitHub repo</a>
+    <a href="https://github.com/ix5231/metronome">GitHub repo</a>
 </footer>
 
 </body>
